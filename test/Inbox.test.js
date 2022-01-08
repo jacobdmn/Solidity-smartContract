@@ -1,10 +1,10 @@
 const assert = require("assert");
 const ganache = require("ganache-cli");
 const Web3 = require("web3");
-
+const { interface, bytecode } = require("./../compile");
 const web3 = new Web3(ganache.provider());
 
-let accounts;
+let inbox, accounts;
 
 beforeEach(async () => {
   try {
@@ -12,10 +12,17 @@ beforeEach(async () => {
   } catch (error) {
     console.error("Error:", error);
   }
+
+  inbox = await new web3.eth.Contract(JSON.parse(interface))
+    .deploy({
+      data: bytecode,
+      arguments: ["First Deployment!"],
+    })
+    .send({ from: accounts[0], gas: "1000000" });
 });
 
 describe("Inbox", () => {
   it("deployed the contract", () => {
-    console.log(accounts);
+    assert.ok(inbox.options.address);
   });
 });
