@@ -1,11 +1,11 @@
-pragma solidity ^0.4.17;
+pragma solidity ^0.8.11;
 
 contract Inbox {
     string public message;
 
-    // constructor(string initMessage) public {
-    //     message = initMessage;
-    // }
+    constructor(string memory initMessage)  {
+        message = initMessage;
+    }
 
     function setMessage(string newMessage) public {
         message = newMessage;
